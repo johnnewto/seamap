@@ -51,7 +51,30 @@ python map_app.py
 http://localhost:5000
 ```
 
+4. The application will load the map and start displaying ship movements in real-time.
+
+
 The application will start with a map centered on Ōrākei Bay, showing simulated ship movements. The map will automatically update every 3 seconds with new ship positions.
+## Example
+
+A live demo of the application is available at: https://johnnewto.pythonanywhere.com/
+
+![Seamap Application Screenshot](images/Screenshot%20from%202025-06-04%2014-40-36.png)
+
+The demo showcases:
+- Real-time ship tracking in Ōrākei Bay
+- Interactive map controls and measurements
+- Automatic position updates every 3 seconds
+- Ship path visualization
+- Speed and timestamp information for each vessel
+
+You can interact with the demo by:
+1. Using the layer control to switch between OpenStreetMap and OpenSeaMap views
+2. Clicking on ship markers to view detailed information
+3. Using the measure tool to calculate distances and areas
+4. Zooming and panning to explore different areas of the bay
+
+Note: The demo uses simulated data for demonstration purposes. In a production environment, this would be connected to real AIS (Automatic Identification System) data or other vessel tracking systems.
 
 ## Map Features
 
