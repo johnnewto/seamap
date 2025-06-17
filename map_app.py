@@ -5,8 +5,9 @@ from folium.elements import JavascriptLink, CssLink
 import pandas as pd
 from datetime import datetime, timedelta
 import random
+from flask import request
 
-# Initialize Flask app
+# Initialize Flask app please 
 app = Flask(__name__, static_folder='static')
 
 # Create sample AIS-like data for a ship's path around Ōrākei Bay
@@ -139,23 +140,43 @@ html = """
 
 
 # Flask route to serve the map
-@app.route('/')
+# @app.route('/')
+# def index():
+#     # Get the last point from data for initial map center
+#     last_point = data.iloc[-1]
+#     center_lat, center_lon = last_point['lat'], last_point['lon']
+
+#     # Create Folium map
+#     m = folium.Map(
+#         location=[center_lat, center_lon],  # Center on last ship position
+#         zoom_start=25,
+#         control_scale=True
+#     )
+#     add_map_options(m)
+#     # Create and add Realtime layer with a name
+#     rt = Realtime(source, interval=3000, name='Ship Tracking')
+#     rt.add_to(m)
+#     # Render map to HTML
+#     return render_template_string(html, m=m)
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # Get the last point from data for initial map center
+    if request.method == 'POST':
+        newdata = request.get_json()
+        print("Received POST data:", newdata)
+        return jsonify({"status": "received", "data": newdata}), 201
+    # Existing GET logic
     last_point = data.iloc[-1]
     center_lat, center_lon = last_point['lat'], last_point['lon']
-
-    # Create Folium map
     m = folium.Map(
-        location=[center_lat, center_lon],  # Center on last ship position
+        location=[center_lat, center_lon],
         zoom_start=25,
         control_scale=True
     )
     add_map_options(m)
-    # Create and add Realtime layer with a name
     rt = Realtime(source, interval=3000, name='Ship Tracking')
     rt.add_to(m)
-    # Render map to HTML
     return render_template_string(html, m=m)
 
 # Flask route to provide new waypoint data
@@ -186,6 +207,7 @@ def new_waypoint():
         'speed': new_speed,
         'timestamp': new_timestamp
     })
+
 
 if __name__ == '__main__':
     app.run(debug=True)
